@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+/* Custom theme extensions */
+@theme {
+  --color-brand: #6C47FF;
+  --color-brand-light: #8B6BFF;
+  --color-brand-dark: #5433D9;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-rose: #F43F5E;
+}
+
+/* Optional resets */
+html,
+body,
+#__next {
+  height: 100%;
+}
