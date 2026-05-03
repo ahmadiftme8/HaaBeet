@@ -1,44 +1,44 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { mysqlTable, varchar, text, int, timestamp, boolean, json, mysqlEnum, datetime, primaryKey } from "drizzle-orm/mysql-core";
 
-export const users = sqliteTable("users", {
-  id: text("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  passwordHash: text("password_hash").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().defaultNow(),
+export const users = mysqlTable("users", {
+  id: varchar("id", { length: 36 }).primaryKey(),  // UUID string
+  username: varchar("username", { length: 50 }).notNull().unique(),
+  passwordHash: varchar("password_hash", { length: 255 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const habits = sqliteTable("habits", {
-  id: text("id").primaryKey(),
-  title: text("title").notNull(),
+export const habits = mysqlTable("habits", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  title: varchar("title", { length: 100 }).notNull(),
   description: text("description"),
-  frequencyType: text("frequency_type", {
-    enum: ["DAILY", "WEEKLY", "CUSTOM"],
-  }).default("DAILY"),
-  frequencyConfig: text("frequency_config"),
-  isTemplate: integer("is_template", { mode: "boolean" }).default(false),
-  isPublic: integer("is_public", { mode: "boolean" }).default(false),
-  userId: text("user_id").references(() => users.id),
-  createdAt: integer("created_at", { mode: "timestamp" }).defaultNow(),
+  frequencyType: mysqlEnum("frequency_type", ["DAILY", "WEEKLY", "CUSTOM"]).default("DAILY").notNull(),
+  frequencyConfig: json("frequency_config"), // JSON column
+  isTemplate: boolean("is_template").default(false),
+  isPublic: boolean("is_public").default(false),
+  userId: varchar("user_id", { length: 36 }).references(() => users.id).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const habitEntries = sqliteTable("habit_entries", {
-  id: text("id").primaryKey(),
-  habitId: text("habit_id").references(() => habits.id),
-  date: integer("date", { mode: "timestamp" }).notNull(),
-  completed: integer("completed", { mode: "boolean" }).default(false),
-  completedAt: integer("completed_at", { mode: "timestamp" }),
+export const habitEntries = mysqlTable("habit_entries", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  habitId: varchar("habit_id", { length: 36 }).references(() => habits.id).notNull(),
+  date: datetime("date").notNull(),                       // ← datetime, no auto-default
+  completed: boolean("completed").default(false),
+  completedAt: datetime("completed_at"),                 // ← datetime, nullable (no default needed)
 });
 
-export const circles = sqliteTable("circles", {
-  id: text("id").primaryKey(),
-  name: text("name").notNull(),
-  inviteCode: text("invite_code").notNull().unique(),
-  ownerId: text("owner_id").references(() => users.id),
+export const circles = mysqlTable("circles", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  inviteCode: varchar("invite_code", { length: 20 }).notNull().unique(),
+  ownerId: varchar("owner_id", { length: 36 }).references(() => users.id).notNull(),
 });
 
-export const circleMembers = sqliteTable("circle_members", {
-  id: text("id").primaryKey(),
-  userId: text("user_id").references(() => users.id),
-  circleId: text("circle_id").references(() => circles.id),
-  joinedAt: integer("joined_at", { mode: "timestamp" }).defaultNow(),
-});
+export const circleMembers = mysqlTable("circle_members", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  userId: varchar("user_id", { length: 36 }).references(() => users.id).notNull(),
+  circleId: varchar("circle_id", { length: 36 }).references(() => circles.id).notNull(),
+  joinedAt: timestamp("joined_at").defaultNow().notNull(),
+}, (table) => ({
+  uniqueUserCircle: primaryKey({ columns: [table.userId, table.circleId] }),
+}));

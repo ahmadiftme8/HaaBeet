@@ -3,8 +3,12 @@ import type { Config } from "drizzle-kit";
 export default {
   schema: "./src/db/schema.ts",
   out: "./drizzle",
-  dialect: "sqlite",
+  dialect: "mysql",
   dbCredentials: {
-    url: "./dev.db",
+    host: "localhost",
+    port: 3306,
+    user: "haabeet",
+    password: "haabeet123",
+    database: "haabeet",
   },
 } satisfies Config;
