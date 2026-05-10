@@ -1,55 +1,55 @@
-import { NextResponse } from 'next/server';
-import { db } from '@/db';
+import {z} from 'zod';
 import * as schema from '@/db/schema';
+import {db} from '@/db';
+import { NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
-import { z } from 'zod';
 
-// For now, still use the demo user
-const DEMO_USER_ID = 'user-1';
+const  USER_ID = 'user-1'; 
 
-// Validation schema for creating a habit
-const createHabitSchema = z.object({
-  title: z.string().min(1).max(100),
-  description: z.string().optional(),
-  frequencyType: z.enum(['DAILY', 'WEEKLY', 'CUSTOM']).default('DAILY'),
-  frequencyConfig: z.any().optional(),
+const HabitSchema = z.object({
+  title :z.string().min(1, "Title is required").max(100, "Title must be less than 100 characters"),
+  description : z.string().optional().nullable(),
+  frequencyType : z.enum(['DAILY', 'WEEKLY', 'CUSTOM']),
+  frequencyConfig : z.any().optional(),
 });
 
-export async function GET() {
-  try {
-    const habits = await db
-      .select()
-      .from(schema.habits)
-      .where(eq(schema.habits.userId, DEMO_USER_ID));
-    return NextResponse.json(habits);
-  } catch (error) {
-    console.error('GET /api/habits error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+export async function GET(){
+
+  try{
+   const habits = await db.select()
+  .from(schema.habits)
+  .where(eq( schema.habits.userId , USER_ID))
+  return NextResponse.json(habits);
   }
+  catch(error){
+    console.error(error);
+    return NextResponse.json({error: 'Failed to fetch habits'}, {status: 500});
+  }
+  
 }
 
-export async function POST(request: Request) {
-  try {
+
+export async function POST(request: Request){
+  try{
     const body = await request.json();
-    const parsed = createHabitSchema.safeParse(body);
+    const parsed = HabitSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json({error: parsed.error}, {status: 400});
     }
-
-    const { title, description, frequencyType, frequencyConfig } = parsed.data;
-
-    const newHabit = await db.insert(schema.habits).values({
+    const {title , description, frequencyType, frequencyConfig} = parsed.data;
+const habitData = {
       id: crypto.randomUUID(),
+      userId: USER_ID,
       title,
-      description: description || null,
+      description : description|| null,
       frequencyType,
       frequencyConfig: frequencyConfig || null,
-      userId: DEMO_USER_ID,
-    }).returning();
-
-    return NextResponse.json(newHabit, { status: 201 });
-  } catch (error) {
-    console.error('POST /api/habits error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-  }
-}
+      
+    }
+    await db.insert(schema.habits).values(habitData)
+    return NextResponse.json(habitData, { status: 201 });
+    
+  }catch(error){
+      console.error(error);
+      return NextResponse.json({error: 'Failed to create habit'}, {status: 500});     
+    }}
