@@ -1,3 +1,4 @@
+// src/app/api/habits/check/route.ts
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import * as schema from '@/db/schema';
@@ -32,10 +33,17 @@ export async function POST(request: Request) {
       .limit(1);
 
     if (existing.length > 0) {
-      // Already completed – maybe we want to toggle it off? For now, just return conflict.
-      return NextResponse.json({ error: 'Already completed today' }, { status: 409 });
+      // Entry exists → delete it (uncheck)
+      await db
+        .delete(schema.habitEntries)
+        .where(eq(schema.habitEntries.id, existing[0].id));
+      return NextResponse.json(
+        { deleted: true, habitId, date },
+        { status: 200 }
+      );
     }
 
+    // Entry does not exist → create it (check)
     const newEntry = {
       id: crypto.randomUUID(),
       habitId,
@@ -46,9 +54,9 @@ export async function POST(request: Request) {
 
     await db.insert(schema.habitEntries).values(newEntry);
 
-    return NextResponse.json({ ...newEntry, date }, { status: 201 });
+    return NextResponse.json(newEntry, { status: 201 });
   } catch (error) {
     console.error('POST /api/habits/check error:', error);
-    return NextResponse.json({ error: 'Failed to check habit' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to toggle habit' }, { status: 500 });
   }
 }

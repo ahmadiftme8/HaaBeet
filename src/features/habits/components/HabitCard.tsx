@@ -1,8 +1,8 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useHabitEntries } from '../hooks/useHabitEntries';
-import { useCheckHabit } from '../hooks/useCheckHabit.ts';
+import useHabitEntries from "../hooks/useHabitEntries";
+import { useCheckHabit } from '../hooks/useCheckHabit';
 import { getDailyStatus, calculateStreak, toDateKey } from '@/lib/habit-utils';
 import type { Habit } from '../hooks/useHabits';
 
@@ -17,6 +17,7 @@ export function HabitCard({ habit }: HabitCardProps) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const todayKey = toDateKey(today);
+
 
   // Compute completed date strings from entries belonging to this habit
   const completedDates = useMemo(() => {

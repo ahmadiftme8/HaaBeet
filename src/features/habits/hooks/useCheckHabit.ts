@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { HabitEntry } from './useHabitEntries';
 
+
 interface CheckPayload {
   habitId: string;
   date: string; // YYYY-MM-DD
