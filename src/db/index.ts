@@ -1,14 +1,7 @@
-import { drizzle } from "drizzle-orm/mysql2";
-import mysql from "mysql2/promise";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
-// Create a connection pool (connection pooling is standard for MySQL)
-const pool = mysql.createPool({
-  host: "localhost",
-  port: 3306,
-  user: "haabeet",
-  password: "haabeet123",
-  database: "haabeet",
-});
+const sql = neon(process.env.DATABASE_URL!);
 
-export const db = drizzle(pool, { schema, mode: "default" });
+export const db = drizzle(sql, { schema });
