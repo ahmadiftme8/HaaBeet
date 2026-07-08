@@ -4,6 +4,7 @@ import { db } from '@/db';
 import * as schema from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { z } from 'zod';
+import { auth } from '@/lib/auth';
 
 const checkSchema = z.object({
   habitId: z.string().min(1),
@@ -19,6 +20,21 @@ export async function POST(request: Request) {
     }
 
     const { habitId, date } = parsed.data;
+
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const [habit] = await db
+      .select({ userId: schema.habits.userId })
+      .from(schema.habits)
+      .where(eq(schema.habits.id, habitId))
+      .limit(1);
+
+    if (!habit || habit.userId !== session.user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
     // Check if an entry already exists for this habit and date
     const existing = await db

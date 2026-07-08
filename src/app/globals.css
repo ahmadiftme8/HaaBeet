@@ -1,18 +1,45 @@
 @import "tailwindcss";
+@config "../../tailwind.config.ts";
 
-/* Custom theme extensions */
-@theme {
-  --color-brand: #6C47FF;
-  --color-brand-light: #8B6BFF;
-  --color-brand-dark: #5433D9;
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-rose: #F43F5E;
+:root {
+  --bg-app: #F3F6FB;
+  --bg-surface: #FFFFFF;
+  --border-light: #EAEEF3;
+  --color-blue: #A8C5FF;
+  --color-purple: #C19AFF;
+  --color-orange: #FFB35A;
+  --color-pink: #F8A4CB;
+  --color-dark: #1C1C1E;
+  --text-primary: #1C1C1E;
+  --text-secondary: #6E6E80;
+  --text-white: #FFFFFF;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.10);
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --heading-xl: 32px;
+  --heading-lg: 24px;
+  --heading-md: 18px;
+  --body-md: 16px;
+  --body-sm: 14px;
+  --body-xs: 12px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-l: 32px;
+  --radius-m: 24px;
+  --radius-sm: 12px;
+  --radius-pill: 100px;
 }
 
-/* Optional resets */
 html,
 body,
 #__next {
   height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
 }

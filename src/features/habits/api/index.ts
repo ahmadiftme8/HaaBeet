@@ -3,8 +3,7 @@ import * as schema from '@/db/schema';
 import {db} from '@/db';
 import { NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
-
-const  USER_ID = 'user-1'; 
+import { auth } from '@/lib/auth';
 
 const HabitSchema = z.object({
   title :z.string().min(1, "Title is required").max(100, "Title must be less than 100 characters"),
@@ -16,9 +15,13 @@ const HabitSchema = z.object({
 export async function GET(){
 
   try{
+   const session = await auth();
+   if (!session?.user?.id) {
+     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+   }
    const habits = await db.select()
   .from(schema.habits)
-  .where(eq( schema.habits.userId , USER_ID))
+  .where(eq( schema.habits.userId , session.user.id))
   return NextResponse.json(habits);
   }
   catch(error){
@@ -31,6 +34,10 @@ export async function GET(){
 
 export async function POST(request: Request){
   try{
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await request.json();
     const parsed = HabitSchema.safeParse(body);
     if (!parsed.success) {
@@ -39,7 +46,7 @@ export async function POST(request: Request){
     const {title , description, frequencyType, frequencyConfig} = parsed.data;
 const habitData = {
       id: crypto.randomUUID(),
-      userId: USER_ID,
+      userId: session.user.id,
       title,
       description : description|| null,
       frequencyType,

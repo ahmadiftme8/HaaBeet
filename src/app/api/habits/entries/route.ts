@@ -3,12 +3,15 @@ import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import * as schema from '@/db/schema';
 import { eq } from 'drizzle-orm';
-
-const DEMO_USER_ID = 'user-1'; // same as in habits route
+import { auth } from '@/lib/auth';
 
 export async function GET() {
   try {
-    // Fetch all entries for habits belonging to the demo user
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const entries = await db
       .select({
         id: schema.habitEntries.id,
@@ -19,7 +22,7 @@ export async function GET() {
       })
       .from(schema.habitEntries)
       .innerJoin(schema.habits, eq(schema.habitEntries.habitId, schema.habits.id))
-      .where(eq(schema.habits.userId, DEMO_USER_ID));
+      .where(eq(schema.habits.userId, session.user.id));
 
     // Convert dates to YYYY-MM-DD strings for easy consumption
     const formatted = entries.map((e) => ({
