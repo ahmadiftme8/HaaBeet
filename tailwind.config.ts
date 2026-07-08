@@ -38,6 +38,9 @@ const config: Config = {
         lg: 'var(--spacing-lg)',
         xl: 'var(--spacing-xl)',
       },
+      maxWidth: {
+        form: '400px',
+      },
       borderRadius: {
         l: 'var(--radius-l)',
         m: 'var(--radius-m)',

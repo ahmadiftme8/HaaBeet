@@ -8,10 +8,10 @@ export default function LoginPage() {
   const [error, formAction, pending] = useActionState(loginAction, null);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-[400px] flex-col justify-center px-4">
-      <h1 className="mb-6 text-2xl font-semibold">Log in</h1>
+    <main className="mx-auto flex min-h-screen w-full max-w-form flex-col justify-center px-4 py-6 sm:px-6">
+      <h1 className="mb-4 text-xl font-semibold sm:mb-6 sm:text-2xl">Log in</h1>
 
-      <form action={formAction} className="space-y-4">
+      <form action={formAction} className="w-full space-y-4">
         <div>
           <label htmlFor="username" className="mb-1 block text-sm font-medium">
             Username

@@ -25,7 +25,7 @@ export function CheckButton({
   return (
     <button
       type="button"
-      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-pill text-xl transition-all disabled:opacity-50 ${stateClasses} ${className}`}
+      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-pill text-lg transition-all disabled:opacity-50 sm:h-12 sm:w-12 sm:text-xl ${stateClasses} ${className}`}
       {...props}
     >
       {children}

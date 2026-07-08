@@ -10,11 +10,11 @@ function HabitsLoadingSkeleton() {
   return (
     <div className="space-y-md" aria-busy="true" aria-live="polite">
       <p className="text-center text-body-sm text-secondary">Loading habits…</p>
-      <div className="grid grid-cols-1 gap-md md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-md md:grid-cols-2 lg:grid-cols-3">
         {[0, 1].map((index) => (
           <div
             key={index}
-            className="animate-pulse rounded-m border border-border-light bg-bg-surface p-lg shadow-sm"
+            className="animate-pulse rounded-m border border-border-light bg-bg-surface p-md shadow-sm md:p-lg"
             aria-hidden="true"
           >
             <div className="mb-sm h-[var(--heading-md)] w-2/5 rounded-sm bg-border-light" />
@@ -29,7 +29,7 @@ function HabitsLoadingSkeleton() {
 
 function HabitsEmptyState({ onCreateClick }: { onCreateClick: () => void }) {
   return (
-    <div className="flex flex-col items-center gap-md py-xl text-center">
+    <div className="flex flex-col items-center gap-md py-lg text-center md:py-xl">
       <p className="text-heading-md text-secondary">No habits yet — create your first one</p>
       <Button onClick={onCreateClick}>Create habit</Button>
     </div>
@@ -46,7 +46,7 @@ function HabitsErrorState({
   isRetrying: boolean;
 }) {
   return (
-    <div className="flex flex-col items-center gap-md py-xl text-center" role="alert">
+    <div className="flex flex-col items-center gap-md py-lg text-center md:py-xl" role="alert">
       <p className="text-body-sm text-red-600">Couldn&apos;t load habits. {message}</p>
       <Button onClick={onRetry} disabled={isRetrying}>
         {isRetrying ? 'Retrying…' : 'Try again'}
@@ -68,7 +68,7 @@ export function HabitsList() {
   };
 
   return (
-    <div className="space-y-lg rounded-m bg-bg-app p-lg">
+    <div className="space-y-md rounded-m bg-bg-app p-md md:space-y-lg md:p-lg">
       <div id="create-habit-form">
         <CreateHabitForm />
       </div>
@@ -88,7 +88,7 @@ export function HabitsList() {
       )}
 
       {!isLoadingHabits && !error && habits && habits.length > 0 && (
-        <div className="grid grid-cols-1 gap-md md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-md md:grid-cols-2 lg:grid-cols-3">
           {habits.map((habit) => (
             <HabitCard key={habit.id} habit={habit} />
           ))}

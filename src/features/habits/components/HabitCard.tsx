@@ -14,7 +14,9 @@ import {
   frequencyColor,
 } from '@/components/ui';
 
-import { getDailyStatus, calculateStreak, toDateKey } from '@/lib/habit-utils';
+import { getDailyStatus, toDateKey } from '@/lib/habit-utils';
+
+import { StreakCalendar } from './StreakCalendar';
 
 import useHabitEntries from '../hooks/useHabitEntries';
 import { useCheckHabit } from '../hooks/useCheckHabit';
@@ -43,15 +45,16 @@ export function HabitCard({ habit }: HabitCardProps) {
   today.setHours(0, 0, 0, 0);
   const todayKey = toDateKey(today);
 
-  const completedDates = useMemo(() => {
+  const habitEntries = useMemo(() => {
     if (!entries) return [];
 
-    return entries
-      .filter((e) => e.habitId === habit.id && e.completed)
-      .map((e) => e.date);
+    return entries.filter((entry) => entry.habitId === habit.id);
   }, [entries, habit.id]);
 
-  const completedSet = useMemo(() => new Set(completedDates), [completedDates]);
+  const completedSet = useMemo(
+    () => new Set(habitEntries.filter((entry) => entry.completed).map((entry) => entry.date)),
+    [habitEntries],
+  );
 
   const frequencyConfig = useMemo(() => {
     if (!habit.frequencyConfig) return null;
@@ -64,7 +67,6 @@ export function HabitCard({ habit }: HabitCardProps) {
   }, [habit.frequencyConfig]);
 
   const status = getDailyStatus(today, habit.frequencyType as any, frequencyConfig, completedSet);
-  const streak = calculateStreak(completedDates, todayKey);
 
   const handleCheck = () => {
     if (!status.isToday) return;
@@ -119,7 +121,7 @@ export function HabitCard({ habit }: HabitCardProps) {
   if (isEditing) {
     return (
       <Card bordered>
-        <form onSubmit={handleEditSubmit} className="flex flex-col gap-md">
+        <form onSubmit={handleEditSubmit} className="flex w-full flex-col gap-md">
           <Input
             id={`edit-title-${habit.id}`}
             label="Title"
@@ -162,7 +164,7 @@ export function HabitCard({ habit }: HabitCardProps) {
             <p className="text-body-sm text-brand-pink">{updateMutation.error.message}</p>
           )}
 
-          <div className="flex gap-sm">
+          <div className="flex flex-wrap gap-sm">
             <Button type="submit" disabled={updateMutation.isPending}>
               {updateMutation.isPending ? 'Saving…' : 'Save'}
             </Button>
@@ -181,24 +183,29 @@ export function HabitCard({ habit }: HabitCardProps) {
   }
 
   return (
-    <Card className="flex items-center justify-between gap-md transition-shadow hover:shadow-md">
-      <div className="flex min-w-0 flex-col gap-xs">
-        <h3 className="text-heading-md text-primary">{habit.title}</h3>
+    <Card className="flex flex-col gap-md transition-shadow hover:shadow-md sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex min-w-0 flex-1 flex-col gap-xs">
+        <h3 className="break-words text-heading-md text-primary">{habit.title}</h3>
 
         <Badge color={frequencyColor(habit.frequencyType)}>
           {formatFrequencyLabel(habit.frequencyType)}
         </Badge>
 
         {habit.description && (
-          <p className="text-body-sm text-secondary">{habit.description}</p>
+          <p className="break-words text-body-sm text-secondary">{habit.description}</p>
         )}
 
         <p className="text-body-sm text-secondary">
-          {status.isToday ? 'Today' : 'Not today'} · Streak: {streak}🔥
+          {status.isToday ? 'Today' : 'Not today'}
         </p>
+
+        <StreakCalendar
+          entries={habitEntries}
+          colorScheme={frequencyColor(habit.frequencyType)}
+        />
       </div>
 
-      <div className="flex shrink-0 items-center gap-sm">
+      <div className="flex shrink-0 flex-wrap items-center justify-end gap-xs sm:justify-start sm:gap-sm">
         <Button type="button" variant="secondary" size="sm" onClick={handleEditOpen}>
           Edit
         </Button>

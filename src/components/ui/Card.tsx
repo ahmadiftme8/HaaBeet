@@ -15,7 +15,7 @@ export function Card({
   padding = 'lg',
   radius = 'm',
 }: CardProps) {
-  const paddingClass = padding === 'md' ? 'p-md' : 'p-lg';
+  const paddingClass = padding === 'md' ? 'p-md' : 'p-md md:p-lg';
   const radiusClass = radius === 'l' ? 'rounded-l' : 'rounded-m';
   const borderClass = bordered ? 'border border-border-light' : '';
 

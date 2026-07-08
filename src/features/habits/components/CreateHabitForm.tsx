@@ -47,66 +47,68 @@ export function CreateHabitForm() {
   };
 
   return (
-    <Card bordered>
-      <form onSubmit={handleSubmit} className="space-y-md">
-        <h2 className="text-heading-md text-primary">Create habit</h2>
+    <div className="mx-auto w-full max-w-form">
+      <Card bordered className="w-full">
+        <form onSubmit={handleSubmit} className="space-y-md">
+          <h2 className="text-heading-md text-primary">Create habit</h2>
 
-        <Input
-          id="habit-title"
-          label={
-            <>
-              Title <span aria-hidden="true">*</span>
-            </>
-          }
-          type="text"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            if (titleError) setTitleError(null);
-          }}
-          error={titleError ?? undefined}
-        />
+          <Input
+            id="habit-title"
+            label={
+              <>
+                Title <span aria-hidden="true">*</span>
+              </>
+            }
+            type="text"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              if (titleError) setTitleError(null);
+            }}
+            error={titleError ?? undefined}
+          />
 
-        <Textarea
-          id="habit-description"
-          label="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={2}
-        />
+          <Textarea
+            id="habit-description"
+            label="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
+          />
 
-        <fieldset>
-          <legend className="mb-xs block text-body-sm text-secondary">Frequency</legend>
-          <div className="flex flex-wrap gap-sm">
-            <RadioOption
-              name="frequencyType"
-              value="DAILY"
-              color="blue"
-              checked={frequencyType === 'DAILY'}
-              onChange={() => setFrequencyType('DAILY')}
-            >
-              Daily
-            </RadioOption>
-            <RadioOption
-              name="frequencyType"
-              value="WEEKLY"
-              color="purple"
-              checked={frequencyType === 'WEEKLY'}
-              onChange={() => setFrequencyType('WEEKLY')}
-            >
-              Weekly
-            </RadioOption>
-          </div>
-        </fieldset>
+          <fieldset>
+            <legend className="mb-xs block text-body-sm text-secondary">Frequency</legend>
+            <div className="flex flex-wrap gap-sm">
+              <RadioOption
+                name="frequencyType"
+                value="DAILY"
+                color="blue"
+                checked={frequencyType === 'DAILY'}
+                onChange={() => setFrequencyType('DAILY')}
+              >
+                Daily
+              </RadioOption>
+              <RadioOption
+                name="frequencyType"
+                value="WEEKLY"
+                color="purple"
+                checked={frequencyType === 'WEEKLY'}
+                onChange={() => setFrequencyType('WEEKLY')}
+              >
+                Weekly
+              </RadioOption>
+            </div>
+          </fieldset>
 
-        {createMutation.error && (
-          <p className="text-body-sm text-brand-pink">{createMutation.error.message}</p>
-        )}
+          {createMutation.error && (
+            <p className="text-body-sm text-brand-pink">{createMutation.error.message}</p>
+          )}
 
-        <Button type="submit" disabled={createMutation.isPending}>
-          {createMutation.isPending ? 'Creating…' : 'Create habit'}
-        </Button>
-      </form>
-    </Card>
+          <Button type="submit" disabled={createMutation.isPending}>
+            {createMutation.isPending ? 'Creating…' : 'Create habit'}
+          </Button>
+        </form>
+      </Card>
+    </div>
   );
 }
