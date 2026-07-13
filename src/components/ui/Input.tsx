@@ -5,8 +5,12 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export function Input({ label, error, id, className = '', ...props }: InputProps) {
+export function Input({ label, error, id, className = '', disabled, ...props }: InputProps) {
   const errorId = error && id ? `${id}-error` : undefined;
+
+  const stateClasses = error
+    ? 'border-red-500 focus-visible:outline-red-500/50'
+    : 'border-border-light focus-ring';
 
   return (
     <div>
@@ -17,11 +21,10 @@ export function Input({ label, error, id, className = '', ...props }: InputProps
       )}
       <input
         id={id}
+        disabled={disabled}
         aria-invalid={error ? true : undefined}
         aria-describedby={errorId}
-        className={`w-full rounded-sm border bg-bg-app px-sm py-sm text-body-sm text-primary focus:outline-none focus:ring-2 focus:ring-brand-blue/40 ${
-          error ? 'border-brand-pink' : 'border-border-light'
-        } ${className}`}
+        className={`min-h-11 w-full rounded-sm border bg-bg-app px-sm py-sm text-body-sm text-primary transition-base md:min-h-0 disabled:cursor-not-allowed disabled:opacity-50 ${stateClasses} ${className}`}
         {...props}
       />
       {error && (

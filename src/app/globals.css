@@ -32,6 +32,22 @@
   --radius-m: 24px;
   --radius-sm: 12px;
   --radius-pill: 100px;
+  --transition-fast: 120ms ease-out;
+  --transition-base: 200ms ease-out;
+  --transition-slow: 320ms ease-in-out;
+}
+
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-blue) 50%, transparent);
+    outline-offset: 2px;
+  }
+}
+
+@utility transition-base {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity, outline;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
 }
 
 html,

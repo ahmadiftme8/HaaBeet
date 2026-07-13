@@ -50,6 +50,15 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-family)'],
       },
+      transitionDuration: {
+        fast: '120ms',
+        base: '200ms',
+        slow: '320ms',
+      },
+      transitionTimingFunction: {
+        'ease-out': 'ease-out',
+        'ease-in-out': 'ease-in-out',
+      },
     },
   },
   plugins: [],
