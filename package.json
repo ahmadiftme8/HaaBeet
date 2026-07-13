@@ -43,6 +43,7 @@
 		"build": "next build",
 		"start": "next start",
 		"prisma:push": "prisma db push",
-		"prisma:generate": "prisma generate"
+		"prisma:generate": "prisma generate",
+		"test": "vitest run"
 	}
 }
