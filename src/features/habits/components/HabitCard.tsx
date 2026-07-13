@@ -1,12 +1,12 @@
 'use client';
 
+import { Check, Circle, Lock, Pencil, Trash2 } from 'lucide-react';
 import { useMemo, useState, type FormEvent } from 'react';
 
 import {
   Badge,
   Button,
   Card,
-  CheckButton,
   Input,
   RadioOption,
   Textarea,
@@ -182,52 +182,85 @@ export function HabitCard({ habit }: HabitCardProps) {
     );
   }
 
-  return (
-    <Card className="flex flex-col gap-md transition-shadow hover:shadow-md sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex min-w-0 flex-1 flex-col gap-xs">
-        <h3 className="break-words text-heading-md text-primary">{habit.title}</h3>
+  const checkLabel = status.isCompleted
+    ? 'Completed'
+    : status.isToday
+      ? 'Check in'
+      : 'Not today';
 
-        <Badge color={frequencyColor(habit.frequencyType)}>
+  const checkIcon = status.isCompleted ? (
+    <Check aria-hidden="true" className="size-4 shrink-0" />
+  ) : status.isToday ? (
+    <Circle aria-hidden="true" className="size-4 shrink-0" />
+  ) : (
+    <Lock aria-hidden="true" className="size-4 shrink-0" />
+  );
+
+  const checkClassName = status.isCompleted
+    ? 'bg-brand-orange text-brand-dark shadow-sm hover:brightness-105'
+    : status.isToday
+      ? ''
+      : 'border border-border-light bg-bg-app text-secondary hover:bg-bg-app hover:brightness-100';
+
+  return (
+    <Card interactive className="flex flex-col gap-md">
+      <div className="flex items-start justify-between gap-sm">
+        <h3 className="min-w-0 flex-1 text-heading-md text-primary">{habit.title}</h3>
+        <Badge color={frequencyColor(habit.frequencyType)} className="shrink-0">
           {formatFrequencyLabel(habit.frequencyType)}
         </Badge>
-
-        {habit.description && (
-          <p className="break-words text-body-sm text-secondary">{habit.description}</p>
-        )}
-
-        <p className="text-body-sm text-secondary">
-          {status.isToday ? 'Today' : 'Not today'}
-        </p>
-
-        <StreakCalendar
-          entries={habitEntries}
-          colorScheme={frequencyColor(habit.frequencyType)}
-        />
       </div>
 
-      <div className="flex shrink-0 flex-wrap items-center justify-end gap-xs sm:justify-start sm:gap-sm">
-        <Button type="button" variant="secondary" size="sm" onClick={handleEditOpen}>
-          Edit
-        </Button>
+      {habit.description && (
+        <p className="truncate text-body-sm text-secondary">{habit.description}</p>
+      )}
 
+      <StreakCalendar
+        entries={habitEntries}
+        colorScheme={frequencyColor(habit.frequencyType)}
+      />
+
+      <div className="flex flex-col gap-sm md:flex-row md:items-center md:justify-between">
         <Button
           type="button"
-          variant="danger"
-          size="sm"
-          onClick={handleDelete}
-          disabled={deleteMutation.isPending}
-        >
-          {deleteMutation.isPending ? 'Deleting…' : 'Delete'}
-        </Button>
-
-        <CheckButton
-          isCompleted={status.isCompleted}
-          isToday={status.isToday}
+          variant="primary"
+          className={`w-full md:w-auto ${checkClassName}`}
           onClick={handleCheck}
           disabled={!status.isToday || status.isCompleted || checkMutation.isPending}
+          aria-label={checkLabel}
         >
-          {status.isCompleted ? '✅' : status.isToday ? '⭕' : '🔒'}
-        </CheckButton>
+          {checkIcon}
+          {checkLabel}
+        </Button>
+
+        <div className="flex items-center justify-end gap-xs">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={handleEditOpen}
+            aria-label="Edit habit"
+            className="min-h-11 min-w-11 px-0 md:min-h-0 md:min-w-0 md:px-sm"
+          >
+            <Pencil aria-hidden="true" className="size-4 shrink-0" />
+            <span className="hidden md:inline">Edit</span>
+          </Button>
+
+          <Button
+            type="button"
+            variant="danger"
+            size="sm"
+            onClick={handleDelete}
+            disabled={deleteMutation.isPending}
+            aria-label={deleteMutation.isPending ? 'Deleting habit' : 'Delete habit'}
+            className="min-h-11 min-w-11 px-0 md:min-h-0 md:min-w-0 md:px-sm"
+          >
+            <Trash2 aria-hidden="true" className="size-4 shrink-0" />
+            <span className="hidden md:inline">
+              {deleteMutation.isPending ? 'Deleting…' : 'Delete'}
+            </span>
+          </Button>
+        </div>
       </div>
     </Card>
   );
