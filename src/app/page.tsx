@@ -134,7 +134,7 @@ export default function Home() {
             <h2 className="text-heading-lg text-white">
               Ready to start your streak?
             </h2>
-            <p className="mx-auto mt-sm min-w-xl text-body-sm text-white/80 md:text-body-md">
+            <p className="mx-auto mt-sm max-w-xl text-body-sm text-white/80 md:text-body-md">
               Create your first habit in seconds. No credit card, no clutter —
               just a cleaner way to build routines.
             </p>

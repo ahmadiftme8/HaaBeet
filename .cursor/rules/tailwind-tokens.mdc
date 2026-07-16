@@ -1,0 +1,34 @@
+---
+description: Prevent Tailwind v4 spacing/container token collisions that collapse widths
+alwaysApply: true
+---
+
+# Tailwind v4 design tokens (HaaBeet)
+
+## Critical: spacing names must not shadow container widths
+
+This project defines spacing tokens named `xs` / `sm` / `md` / `lg` / `xl` (e.g. `--spacing-md: 16px`).
+
+In **Tailwind CSS v4**, `max-w-*`, `min-w-*`, `w-*`, and `basis-*` prefer `--spacing-*` over `--container-*` when both exist. That means an unscoped `max-w-md` becomes **16px**, not 28rem — modals/layout look “missing” or crushed.
+
+### Do this
+
+- For form/modal panels: always use **`max-w-form`** (400px). Never add `md:max-w-md` on top — that class still collapses under spacing.
+- Container widths are pinned in `globals.css` `@theme { --max-width-* }` — prefer those, or arbitrary values like `max-w-[28rem]`.
+- When you need a Tailwind container size that might collide, use: `max-w-(--container-md)` or `max-w-[28rem]`.
+
+### Never do this blindly
+
+- Do not assume `max-w-sm|md|lg|xl` means “medium container” unless `maxWidth` is explicitly pinned in the theme (it is — keep those entries).
+- Do not add new spacing keys that reuse container names (`2xl`, `3xl`, `7xl`, etc.) without also pinning matching `maxWidth` / `minWidth` values.
+
+## Radius token naming
+
+`rounded-l` / `rounded-m` are **size** tokens (`--radius-l`, `--radius-m`), not CSS “left”. Do not use `rounded-l` to mean “round the left side”.
+
+- Bottom sheet top corners: `rounded-t-l`
+- Full large radius: `rounded-l`
+
+## Transitions
+
+Use project utilities: `transition-base`, `transition-slow` (backed by `--transition-*` in `globals.css`).

@@ -4,6 +4,7 @@ export { Button } from './Button';
 export { Card } from './Card';
 export { CheckButton } from './CheckButton';
 export { Input } from './Input';
+export { Modal } from './Modal';
 export {
   RadioOption,
   formatFrequencyLabel,

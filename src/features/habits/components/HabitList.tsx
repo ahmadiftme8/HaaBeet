@@ -4,7 +4,6 @@ import { Button } from '@/components/ui';
 
 import { useHabits } from '../hooks/useHabits';
 import { HabitCard } from './HabitCard';
-import { CreateHabitForm } from './CreateHabitForm';
 
 function HabitsLoadingSkeleton() {
   return (
@@ -55,24 +54,16 @@ function HabitsErrorState({
   );
 }
 
-export function HabitsList() {
+interface HabitsListProps {
+  onCreateClick: () => void;
+}
+
+export function HabitsList({ onCreateClick }: HabitsListProps) {
   const { data: habits, isLoading, isPending, error, refetch, isFetching } = useHabits();
   const isLoadingHabits = isPending || isLoading;
 
-  const scrollToCreateForm = () => {
-    document.getElementById('create-habit-form')?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-    document.getElementById('habit-title')?.focus();
-  };
-
   return (
     <div className="space-y-md rounded-m bg-bg-app p-md md:space-y-lg md:p-lg">
-      <div id="create-habit-form">
-        <CreateHabitForm />
-      </div>
-
       {isLoadingHabits && <HabitsLoadingSkeleton />}
 
       {!isLoadingHabits && error && (
@@ -84,7 +75,7 @@ export function HabitsList() {
       )}
 
       {!isLoadingHabits && !error && (!habits || habits.length === 0) && (
-        <HabitsEmptyState onCreateClick={scrollToCreateForm} />
+        <HabitsEmptyState onCreateClick={onCreateClick} />
       )}
 
       {!isLoadingHabits && !error && habits && habits.length > 0 && (

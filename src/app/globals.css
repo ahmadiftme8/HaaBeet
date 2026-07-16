@@ -1,6 +1,28 @@
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
+/*
+  Tailwind v4: named --spacing- (sm/md/lg/…) keys steal max-width / min-width / width utilities.
+  Pin --max-width- and --min-width- theme keys here so container utilities stay real widths.
+*/
+@theme {
+  --max-width-form: 400px;
+  --max-width-xs: 20rem;
+  --max-width-sm: 24rem;
+  --max-width-md: 28rem;
+  --max-width-lg: 32rem;
+  --max-width-xl: 36rem;
+  --max-width-2xl: 42rem;
+  --max-width-3xl: 48rem;
+  --max-width-7xl: 80rem;
+
+  --min-width-xs: 20rem;
+  --min-width-sm: 24rem;
+  --min-width-md: 28rem;
+  --min-width-lg: 32rem;
+  --min-width-xl: 36rem;
+}
+
 :root {
   --bg-app: #F3F6FB;
   --bg-surface: #FFFFFF;
@@ -23,6 +45,8 @@
   --body-md: 16px;
   --body-sm: 14px;
   --body-xs: 12px;
+  /* Gap/padding only. Do NOT reuse these names for layout width without
+     pinning theme.extend.maxWidth (Tailwind v4 maps max-w-md → spacing-md). */
   --spacing-xs: 8px;
   --spacing-sm: 12px;
   --spacing-md: 16px;
@@ -48,6 +72,12 @@
   transition-property: color, background-color, border-color, box-shadow, transform, opacity, outline;
   transition-duration: 200ms;
   transition-timing-function: ease-out;
+}
+
+@utility transition-slow {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity, outline;
+  transition-duration: 320ms;
+  transition-timing-function: ease-in-out;
 }
 
 html,
