@@ -12,18 +12,20 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-brand-dark text-white shadow-sm',
-  secondary: 'border border-border-light bg-bg-surface text-primary shadow-sm hover:bg-bg-app',
-  danger: 'bg-red-600 text-white shadow-sm',
+  primary:
+    'bg-brand-primary font-bold text-text-inverse shadow-card enabled:hover:brightness-105',
+  secondary:
+    'border border-border-hairline bg-bg-surface text-text-primary enabled:hover:bg-bg-app',
+  danger: 'bg-red-600 font-bold text-text-inverse shadow-card',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'min-h-11 px-sm py-xs text-body-sm md:min-h-0',
-  md: 'min-h-11 px-md py-sm text-body-sm md:min-h-0',
+  sm: 'min-h-11 px-lg py-xs text-body-sm md:min-h-0',
+  md: 'min-h-11 px-xl py-sm text-body-sm md:min-h-0',
 };
 
 const interactionClasses =
-  'inline-flex items-center justify-center gap-xs rounded-sm transition-base focus-ring enabled:hover:scale-[1.02] enabled:hover:brightness-105 active:scale-95 disabled:pointer-events-none disabled:opacity-50';
+  'inline-flex items-center justify-center gap-xs rounded-full transition-base focus-ring enabled:hover:scale-[1.02] active:scale-95 disabled:pointer-events-none disabled:opacity-50';
 
 export function Button({
   variant = 'primary',

@@ -1,6 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
 
-const protectedRoutes = ["/dashboard"];
+const protectedRoutes = ["/dashboard", "/report", "/about"];
 const authRoutes = ["/login", "/signup"];
 
 export default {

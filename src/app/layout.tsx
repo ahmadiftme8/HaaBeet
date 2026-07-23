@@ -6,6 +6,7 @@ import { Providers } from './providers';
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
+  weight: ['400', '500', '600', '700'],
   variable: '--font-family',
 });
 
@@ -21,7 +22,7 @@ export default function RootLayout({children}: {children: React.ReactNode;}) {
       
      
         <html lang="en" className={inter.variable} /* suppressHydrationWarning */ >
-          <body suppressHydrationWarning  className="min-h-screen bg-white text-slate-900 antialiased">
+          <body suppressHydrationWarning className="min-h-screen bg-bg-app text-text-primary antialiased">
              <Providers>
                 {children}
              </Providers>

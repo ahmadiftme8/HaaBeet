@@ -8,16 +8,16 @@ interface RadioOptionProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
 }
 
 const colorClasses: Record<BadgeColor, string> = {
-  blue: 'bg-brand-blue',
-  purple: 'bg-brand-purple',
-  orange: 'bg-brand-orange',
-  pink: 'bg-brand-pink',
+  blue: 'bg-accent-teal',
+  purple: 'bg-accent-lime',
+  orange: 'bg-accent-amber',
+  pink: 'bg-accent-coral',
 };
 
 export function RadioOption({ color, children, className = '', ...props }: RadioOptionProps) {
   return (
     <label
-      className={`flex cursor-pointer items-center gap-xs rounded-pill px-sm py-xs text-body-xs text-brand-dark ${colorClasses[color]} ${className}`}
+      className={`flex cursor-pointer items-center gap-xs rounded-full px-sm py-xs text-body-sm text-text-primary ${colorClasses[color]} ${className}`}
     >
       <input type="radio" {...props} />
       {children}

@@ -57,7 +57,7 @@ export function StreakCalendar({ entries, days = 7, colorScheme }: StreakCalenda
           />
         ))}
       </div>
-      <span className="shrink-0 text-body-md text-primary sm:text-heading-md">{streak}</span>
+      <span className="shrink-0 text-body-md text-text-primary sm:text-heading-md">{streak}</span>
     </div>
   );
 }

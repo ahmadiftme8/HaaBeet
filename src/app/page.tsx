@@ -24,7 +24,7 @@ const features = [
 ] as const;
 
 const navLinkClass =
-  'inline-flex min-h-11 items-center rounded-sm px-sm text-body-sm text-secondary transition-base hover:text-primary focus-ring';
+  'inline-flex min-h-11 items-center rounded-sm px-sm text-body-sm text-text-secondary transition-base hover:text-text-primary focus-ring';
 
 export default function Home() {
   const router = useRouter();
@@ -32,17 +32,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-bg-app">
       {/* Sticky header */}
-      <header className="sticky top-0 z-50 border-b border-border-light bg-bg-surface/95 shadow-sm backdrop-blur-sm">
+      <header className="sticky top-0 z-50 border-b border-border-hairline bg-bg-surface/95 shadow-card backdrop-blur-sm">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 md:h-16 md:px-6 lg:px-8">
           <Link
             href="/"
             className="inline-flex min-h-11 items-center gap-sm transition-base focus-ring"
             aria-label="HaaBeet home"
           >
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-sm bg-brand-dark text-body-sm text-white shadow-sm">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-sm bg-bg-inverse text-body-sm font-bold text-text-inverse shadow-card">
               H
             </span>
-            <span className="hidden text-heading-md text-primary sm:inline">
+            <span className="hidden text-heading-md text-text-primary sm:inline">
               HaaBeet
             </span>
           </Link>
@@ -75,10 +75,17 @@ export default function Home() {
         {/* Hero */}
         <section className="flex min-h-[calc(100dvh-3.5rem)] flex-col justify-center px-4 py-xl md:min-h-[calc(100dvh-4rem)] md:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-3xl text-center">
-            <h1 className="text-heading-xl text-primary md:text-[2.5rem]">
-              Build habits that stick
+            <h1 className="text-display text-text-primary">
+              Build habits that{' '}
+              <span className="relative inline-block">
+                <span
+                  className="absolute -inset-x-1 bottom-1 -z-10 h-[0.55em] rounded-full bg-accent-lime"
+                  aria-hidden="true"
+                />
+                stick
+              </span>
             </h1>
-            <p className=" text-body-md text-secondary md:mt-lg md:text-[1.125rem]">
+            <p className="text-body-md text-text-secondary md:mt-lg">
               HaaBeet is a simple habit tracker that helps you build routines,
               keep your streaks alive, and stay consistent without the noise.
             </p>
@@ -106,8 +113,8 @@ export default function Home() {
         <section className="px-4 pb-xl md:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="text-center">
-              <h2 className="text-heading-lg text-primary">Why HaaBeet?</h2>
-              <p className="mx-auto mt-sm max-w-2xl text-body-md text-secondary">
+              <h2 className="text-heading-lg text-text-primary">Why HaaBeet?</h2>
+              <p className="mx-auto mt-sm max-w-2xl text-body-md text-text-secondary">
                 Everything you need to stay consistent, without the noise.
               </p>
             </div>
@@ -115,11 +122,11 @@ export default function Home() {
             <div className="mt-lg grid grid-cols-1 gap-md md:mt-xl md:grid-cols-3 md:gap-lg">
               {features.map(({ icon: Icon, title, description }) => (
                 <Card key={title} bordered interactive>
-                  <div className="flex size-11 items-center justify-center rounded-sm bg-brand-blue/30 text-primary transition-base">
+                  <div className="flex size-11 items-center justify-center rounded-sm bg-brand-primary-soft text-text-primary transition-base">
                     <Icon className="size-5" aria-hidden="true" />
                   </div>
-                  <h3 className="mt-md text-heading-md text-primary">{title}</h3>
-                  <p className="mt-sm text-body-sm text-secondary md:text-body-md">
+                  <h3 className="mt-md text-heading-md text-text-primary">{title}</h3>
+                  <p className="mt-sm text-body-sm text-text-secondary md:text-body-md">
                     {description}
                   </p>
                 </Card>
@@ -129,19 +136,19 @@ export default function Home() {
         </section>
 
         {/* CTA band */}
-        <section className="bg-brand-dark px-4 py-xl md:px-6 lg:px-8">
+        <section className="bg-bg-inverse px-4 py-xl md:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-heading-lg text-white">
+            <h2 className="text-heading-lg text-text-inverse">
               Ready to start your streak?
             </h2>
-            <p className="mx-auto mt-sm max-w-xl text-body-sm text-white/80 md:text-body-md">
+            <p className="mx-auto mt-sm max-w-xl text-body-sm text-text-inverse/80 md:text-body-md">
               Create your first habit in seconds. No credit card, no clutter —
               just a cleaner way to build routines.
             </p>
             <Button
               type="button"
               variant="secondary"
-              className="mt-lg border-white/20 bg-white text-brand-dark transition-base hover:bg-white/90 hover:brightness-100 md:mt-xl"
+              className="mt-lg border-border-hairline bg-bg-surface text-text-primary transition-base hover:bg-bg-app hover:brightness-100 md:mt-xl"
               onClick={() => router.push('/signup')}
             >
               Create free account
@@ -151,14 +158,14 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border-light bg-bg-surface px-4 py-lg md:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-sm text-body-xs text-secondary sm:flex-row">
+      <footer className="border-t border-border-hairline bg-bg-surface px-4 py-lg md:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-sm text-body-sm text-text-secondary sm:flex-row">
           <p>&copy; {new Date().getFullYear()} HaaBeet</p>
           <div className="flex items-center gap-md">
-            <Link href="/login" className={`${navLinkClass} min-h-0 px-0 py-0 text-body-xs`}>
+            <Link href="/login" className={`${navLinkClass} min-h-0 px-0 py-0 text-body-sm`}>
               Log in
             </Link>
-            <Link href="/signup" className={`${navLinkClass} min-h-0 px-0 py-0 text-body-xs`}>
+            <Link href="/signup" className={`${navLinkClass} min-h-0 px-0 py-0 text-body-sm`}>
               Sign up
             </Link>
           </div>

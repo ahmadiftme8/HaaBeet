@@ -10,10 +10,10 @@ interface GridSquareProps {
 }
 
 const filledColorClasses: Record<GridSquareColorScheme, string> = {
-  blue: 'bg-brand-blue',
-  purple: 'bg-brand-purple',
-  orange: 'bg-brand-orange',
-  pink: 'bg-brand-pink',
+  blue: 'bg-accent-teal',
+  purple: 'bg-accent-lime',
+  orange: 'bg-accent-amber',
+  pink: 'bg-accent-coral',
 };
 
 const sizeClasses: Record<GridSquareSize, string> = {
@@ -29,7 +29,7 @@ export function GridSquare({
 }: GridSquareProps) {
   const stateClasses = filled
     ? filledColorClasses[colorScheme]
-    : 'border border-border-light bg-transparent';
+    : 'border border-border-hairline bg-transparent';
 
   return (
     <span

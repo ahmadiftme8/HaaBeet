@@ -18,15 +18,15 @@ export function Card({
   interactive = false,
 }: CardProps) {
   const paddingClass = padding === 'md' ? 'p-md' : 'p-md md:p-lg';
-  const radiusClass = radius === 'l' ? 'rounded-l' : 'rounded-m';
-  const borderClass = bordered ? 'border border-border-light' : '';
+  const radiusClass = radius === 'l' ? 'rounded-lg' : 'rounded-lg';
+  const borderClass = bordered ? 'border border-border-hairline' : '';
   const interactiveClass = interactive
-    ? 'transition-base hover:-translate-y-0.5 hover:shadow-md'
+    ? 'transition-base hover:-translate-y-0.5 hover:shadow-raised'
     : '';
 
   return (
     <div
-      className={`bg-bg-surface shadow-sm ${paddingClass} ${radiusClass} ${borderClass} ${interactiveClass} ${className}`}
+      className={`bg-bg-surface shadow-card ${paddingClass} ${radiusClass} ${borderClass} ${interactiveClass} ${className}`}
     >
       {children}
     </div>

@@ -88,23 +88,23 @@ export function HabitCard({ habit }: HabitCardProps) {
   );
 
   const checkClassName = status.isCompleted
-    ? 'bg-brand-orange text-brand-dark shadow-sm hover:brightness-105'
+    ? 'bg-accent-amber text-text-primary shadow-card hover:brightness-105'
     : status.isToday
       ? ''
-      : 'border border-border-light bg-bg-app text-secondary hover:bg-bg-app hover:brightness-100';
+      : 'border border-border-hairline bg-bg-app text-text-secondary hover:bg-bg-app hover:brightness-100';
 
   return (
     <>
       <Card interactive className="flex flex-col gap-md">
         <div className="flex items-start justify-between gap-sm">
-          <h3 className="min-w-0 flex-1 text-heading-md text-primary">{habit.title}</h3>
+          <h3 className="min-w-0 flex-1 text-heading-md text-text-primary">{habit.title}</h3>
           <Badge color={frequencyColor(habit.frequencyType)} className="shrink-0">
             {formatFrequencyLabel(habit.frequencyType)}
           </Badge>
         </div>
 
         {habit.description && (
-          <p className="truncate text-body-sm text-secondary">{habit.description}</p>
+          <p className="truncate text-body-sm text-text-secondary">{habit.description}</p>
         )}
 
         <StreakCalendar

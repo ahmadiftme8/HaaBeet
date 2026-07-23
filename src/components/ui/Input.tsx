@@ -10,7 +10,7 @@ export function Input({ label, error, id, className = '', disabled, ...props }: 
 
   const stateClasses = error
     ? 'border-red-500 focus-visible:outline-red-500/50'
-    : 'border-border-light focus-ring';
+    : 'border-border-hairline focus-ring';
 
   return (
     <div>
@@ -24,7 +24,7 @@ export function Input({ label, error, id, className = '', disabled, ...props }: 
         disabled={disabled}
         aria-invalid={error ? true : undefined}
         aria-describedby={errorId}
-        className={`min-h-11 w-full rounded-sm border bg-bg-app px-sm py-sm text-body-sm text-primary transition-base md:min-h-0 disabled:cursor-not-allowed disabled:opacity-50 ${stateClasses} ${className}`}
+        className={`min-h-11 w-full rounded-sm border bg-bg-app px-md py-md text-body-sm text-text-primary transition-base md:min-h-0 disabled:cursor-not-allowed disabled:opacity-50 ${stateClasses} ${className}`}
         {...props}
       />
       {error && (
